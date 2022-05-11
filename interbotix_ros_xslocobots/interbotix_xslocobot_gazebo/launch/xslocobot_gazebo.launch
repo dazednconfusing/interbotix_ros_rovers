@@ -17,7 +17,7 @@
   <arg name="use_rviz"
     default="false"/>
   <arg name="rviz_frame"
-    default="$(arg robot_name)/base_footprint"/>
+    default="$(arg robot_name)_base_footprint"/>
   <arg name="world_name"
     default="$(find interbotix_xslocobot_gazebo)/worlds/xslocobot_gazebo.world"/>
   <arg name="gui"

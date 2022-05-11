@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<robot name="mobile_wx250s"
-  xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="mobile_wx250s" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <joint name="arm_base_link_joint" type="fixed">
     <axis xyz="0 0 0"/>

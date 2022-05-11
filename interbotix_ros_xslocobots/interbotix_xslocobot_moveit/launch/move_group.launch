@@ -25,7 +25,7 @@
   <arg name="show_lidar" default=""/>
   <arg name="external_srdf_loc" default=""/>
   <arg name="dof" default=""/>
-  <arg name="use_camera" default=""/>
+  <arg name="use_camera" default="false" />
   <arg name="pipeline" default="ompl" />
 
 
