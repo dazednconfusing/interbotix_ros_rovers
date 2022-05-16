@@ -13,7 +13,7 @@
   <arg name="rate"                              default="10"/>
   <arg name="source_list"                       default="[]"/>
   <arg name="use_rviz"                          default="true"/>
-  <arg name="rviz_frame"                        default="$(arg robot_name)/base_footprint"/>
+  <arg name="rviz_frame"                        default="$(arg robot_name)_base_footprint"/>
   <arg name="rvizconfig"                        default="$(find interbotix_xslocobot_descriptions)/rviz/xslocobot_description.rviz" />
   <arg name="model"                             default="$(find interbotix_xslocobot_descriptions)/urdf/locobot.urdf.xacro
                                                          arm_model:=$(arg arm_model)
