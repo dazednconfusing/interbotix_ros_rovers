@@ -168,4 +168,3 @@
     args="-urdf -model $(arg robot_name) -param robot_description $(arg spawner_configuration_)"/>
 
 </launch>
-
