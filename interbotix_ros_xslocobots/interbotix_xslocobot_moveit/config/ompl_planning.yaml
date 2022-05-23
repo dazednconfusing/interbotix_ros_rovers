@@ -154,7 +154,7 @@ interbotix_arm:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-  longest_valid_segment_fraction: 0.005
+  longest_valid_segment_fraction: 0.003
 interbotix_hand:
   planner_configs:
     - AnytimePathShortening

@@ -7,3 +7,7 @@ controller_list:
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     joints: [right_finger, left_finger]
+
+initial:  # Define initial robot poses per group
+  - group: interbotix_arm
+    pose: Sleep
