@@ -181,6 +181,7 @@ interbotix_hand:
     - LazyPRMstar
     - SPARS
     - SPARStwo
+  longest_valid_segment_fraction: 0.003
 
 
 # planner_configs:
