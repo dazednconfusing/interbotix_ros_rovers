@@ -31,6 +31,7 @@
   <arg name="mode_configs" default="$(find interbotix_xslocobot_control)/config/modes_$(arg mode_type).yaml" />
 
   <param name="$(arg robot_name)/use_base" value="$(arg use_base)" />
+  <param name="use_base" value="$(arg use_base)" />
 
   <include file="$(find interbotix_xslocobot_descriptions)/launch/xslocobot_description.launch">
     <arg name="robot_model" value="$(arg robot_model)" />
@@ -51,13 +52,13 @@
     pkg="interbotix_xs_sdk"
     type="$(arg xs_sdk_type)"
     output="screen"
-    ns="$(arg robot_name)">
+  >
     <param name="motor_configs" value="$(arg motor_configs)" />
     <param name="mode_configs" value="$(arg mode_configs)" />
     <param name="load_configs" value="$(arg load_configs)" />
   </node>
 
-  <group if="$(arg use_base)" ns="$(arg robot_name)">
+  <group if="$(arg use_base)">
     <node
       name="mobile_base_nodelet_manager"
       pkg="nodelet"
@@ -102,7 +103,7 @@
     pkg="rplidar_ros"
     type="rplidarNode"
     output="screen"
-    ns="$(arg robot_name)">
+  >
     <param name="serial_port" type="string" value="/dev/rplidar" />
     <param name="serial_baudrate" type="int" value="115200" />
     <param name="frame_id" type="string" value="$(arg robot_name)/laser_frame_link" />
@@ -110,8 +111,8 @@
     <param name="angle_compensate" type="bool" value="true" />
   </node>
 
-  <include if="$(arg use_camera)" file="$(find realsense2_camera)/launch/rs_camera.launch" ns="$(arg robot_name)">
-    <arg name="tf_prefix" value="$(arg robot_name)/camera" />
+  <include if="$(arg use_camera)" file="$(find realsense2_camera)/launch/rs_camera.launch">
+    <arg name="tf_prefix" value="/camera" />
     <arg name="filters" value="$(arg filters)" />
     <arg name="align_depth" value="$(arg align_depth)" />
     <arg name="color_fps" value="$(arg color_fps)" />

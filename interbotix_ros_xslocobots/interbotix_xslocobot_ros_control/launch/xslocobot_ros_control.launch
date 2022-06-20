@@ -6,11 +6,12 @@
   <arg name="external_urdf_loc"                 default=""/>
   <arg name="use_rviz"                          default="false"/>
   <arg name="use_camera"                        default="false"/>
+  <arg name="use_base" default="false" />
   <arg name="mode_configs"                      default="$(find interbotix_xslocobot_ros_control)/config/modes.yaml"/>
-  <arg name="dof"                               default="5"/>
+  <arg name="dof" default="6" />
 
-  <rosparam file="$(find interbotix_xslocobot_ros_control)/config/$(arg dof)dof_controllers.yaml" command="load" ns="$(arg robot_name)"/>
-  <rosparam file="$(find interbotix_xslocobot_ros_control)/config/hardware.yaml" command="load" ns="$(arg robot_name)"/>
+  <rosparam file="$(find interbotix_xslocobot_ros_control)/config/$(arg dof)dof_controllers.yaml" command="load" />
+  <rosparam file="$(find interbotix_xslocobot_ros_control)/config/hardware.yaml" command="load" />
 
   <include file="$(find interbotix_xslocobot_control)/launch/xslocobot_control.launch">
     <arg name="robot_model"                       value="$(arg robot_model)"/>
@@ -20,6 +21,7 @@
     <arg name="use_rviz"                          value="$(arg use_rviz)"/>
     <arg name="use_camera"                        value="$(arg use_camera)"/>
     <arg name="mode_configs"                      value="$(arg mode_configs)"/>
+    <arg name="use_base" value="$(arg use_base)" />
   </include>
 
   <node
@@ -28,7 +30,6 @@
     type="controller_manager"
     respawn="false"
     output="screen"
-    ns="$(arg robot_name)"
     args="spawn arm_controller gripper_controller"/>
 
   <node
@@ -36,7 +37,6 @@
     pkg="interbotix_xs_ros_control"
     type="xs_hardware_interface"
     output="screen"
-    ns="$(arg robot_name)">
-  </node>
+  />
 
 </launch>

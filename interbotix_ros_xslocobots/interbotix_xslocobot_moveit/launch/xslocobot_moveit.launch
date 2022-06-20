@@ -11,6 +11,7 @@
   <arg name="use_fake"                          default="false"/>
   <arg name="dof"                               default="6"/>
   <arg name="use_camera"                        default="false"/>
+  <arg name="use_base" default="false" />
   <arg name="use_moveit_rviz"                   default="true"/>
   <arg name="world_name"                        default="$(find interbotix_xslocobot_gazebo)/worlds/empty_zoomed.world"/>
 
@@ -32,6 +33,7 @@
     <arg name="use_camera"                        value="$(arg use_camera)"/>
     <arg name="mode_configs"                      value="$(arg mode_configs)"/>
     <arg name="dof"                               value="$(arg dof)"/>
+    <arg name="use_base" value="$(arg use_base)" />
   </include>
 
   <include if="$(arg use_fake)" file="$(find interbotix_xslocobot_descriptions)/launch/xslocobot_description.launch">
