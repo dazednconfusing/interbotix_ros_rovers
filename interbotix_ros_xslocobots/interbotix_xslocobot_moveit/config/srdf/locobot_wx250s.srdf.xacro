@@ -61,12 +61,12 @@
         <joint name="wrist_rotate" value="0" /> -->
     </group_state>
     <group_state name="Sleep" group="interbotix_arm">
-        <joint name="elbow" value="1.55" />
-        <joint name="forearm_roll" value="0" />
-        <joint name="shoulder" value="-1.1" />
         <joint name="waist" value="0" />
+        <joint name="shoulder" value="-1.1" />
+        <joint name="elbow" value="1.55" />
         <joint name="wrist_angle" value="0.5" />
         <joint name="wrist_rotate" value="0" />
+        <joint name="forearm_roll" value="0" />
     </group_state>
     <group_state name="Upright" group="interbotix_arm">
         <joint name="elbow" value="-1.5708" />
@@ -77,16 +77,24 @@
         <joint name="wrist_rotate" value="0" />
     </group_state>
     <group_state name="Home" group="interbotix_hand">
-        <joint name="left_finger" value="0.0195" />
-        <joint name="right_finger" value="-0.0195" />
+        <joint name="left_finger" value="0.475" />
+        <joint name="right_finger" value="-0.475" />
     </group_state>
-    <group_state name="Open" group="interbotix_hand">
+    <!-- <group_state name="Open" group="interbotix_hand">
         <joint name="left_finger" value="0.037" />
         <joint name="right_finger" value="-0.037" />
     </group_state>
     <group_state name="Closed" group="interbotix_hand">
         <joint name="left_finger" value="0.015" />
         <joint name="right_finger" value="-0.015" />
+    </group_state> -->
+    <group_state name="Open" group="interbotix_hand">
+        <joint name="left_finger" value="0.475" />
+        <joint name="right_finger" value="-0.475" />
+    </group_state>
+    <group_state name="Closed" group="interbotix_hand">
+        <joint name="left_finger" value="0.05" />
+        <joint name="right_finger" value="-0.05" />
     </group_state>
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="locobot_base_footprint"/>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->

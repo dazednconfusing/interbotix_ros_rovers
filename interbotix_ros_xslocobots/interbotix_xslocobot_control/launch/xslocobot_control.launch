@@ -111,16 +111,18 @@
     <param name="angle_compensate" type="bool" value="true" />
   </node>
 
-  <include if="$(arg use_camera)" file="$(find realsense2_camera)/launch/rs_camera.launch">
-    <arg name="tf_prefix" value="/camera" />
-    <arg name="filters" value="$(arg filters)" />
-    <arg name="align_depth" value="$(arg align_depth)" />
-    <arg name="color_fps" value="$(arg color_fps)" />
-    <arg name="color_width" value="$(arg color_width)" />
-    <arg name="color_height" value="$(arg color_height)" />
-    <arg name="depth_fps" value="$(arg depth_fps)" />
-    <arg name="depth_width" value="$(arg depth_width)" />
-    <arg name="depth_height" value="$(arg depth_height)" />
-  </include>
-
+  <group if="$(arg use_camera)">
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+      <arg name="tf_prefix" value="$(arg robot_name)_camera" />
+      <arg name="filters" value="$(arg filters)" />
+      <arg name="align_depth" value="$(arg align_depth)" />
+      <arg name="color_fps" value="$(arg color_fps)" />
+      <arg name="color_width" value="$(arg color_width)" />
+      <arg name="color_height" value="$(arg color_height)" />
+      <arg name="depth_fps" value="$(arg depth_fps)" />
+      <arg name="depth_width" value="$(arg depth_width)" />
+      <arg name="depth_height" value="$(arg depth_height)" />
+    </include>
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="world_to_opt" args="0 0 0 0 0 0 world /camera_depth_optical_frame" /> -->
+  </group>
 </launch>

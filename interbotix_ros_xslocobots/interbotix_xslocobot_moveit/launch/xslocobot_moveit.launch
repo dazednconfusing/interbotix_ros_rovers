@@ -63,7 +63,7 @@
   <include if="$(arg use_moveit_rviz)" file="$(find interbotix_xslocobot_moveit)/launch/moveit_rviz.launch">
   <!-- <include if="$(arg use_moveit_rviz)" file="$(find interbotix_xslocobot_moveit)/launch/moveit_rviz.launch" ns="$(arg robot_name)"> -->
     <arg name="robot_name"                        value="$(arg robot_name)"/>
-    <arg name="rviz_config" value=" $(find interbotix_xslocobot_moveit)/launch/moveit.rviz" />
+    <arg name="rviz_config" value="$(find moveit_task_constructor_demo)/config/mtc_salad.rviz" />
     <!-- <arg name="config"                            value="true"/> -->
    
   </include>
