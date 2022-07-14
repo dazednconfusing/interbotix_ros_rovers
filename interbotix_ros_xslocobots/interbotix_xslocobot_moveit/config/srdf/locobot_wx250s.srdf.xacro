@@ -80,22 +80,22 @@
         <joint name="left_finger" value="0.475" />
         <joint name="right_finger" value="-0.475" />
     </group_state>
-    <!-- <group_state name="Open" group="interbotix_hand">
+    <group_state name="Open" group="interbotix_hand">
         <joint name="left_finger" value="0.037" />
         <joint name="right_finger" value="-0.037" />
     </group_state>
     <group_state name="Closed" group="interbotix_hand">
         <joint name="left_finger" value="0.015" />
         <joint name="right_finger" value="-0.015" />
-    </group_state> -->
-    <group_state name="Open" group="interbotix_hand">
+    </group_state>
+    <!-- <group_state name="Open" group="interbotix_hand">
         <joint name="left_finger" value="0.475" />
         <joint name="right_finger" value="-0.475" />
     </group_state>
     <group_state name="Closed" group="interbotix_hand">
         <joint name="left_finger" value="0.05" />
         <joint name="right_finger" value="-0.05" />
-    </group_state>
+    </group_state> -->
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="locobot_base_footprint"/>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="interbotix_hand" parent_link="$(arg robot_name)_gripper_bar_link" group="interbotix_hand" parent_group="interbotix_arm"/>
