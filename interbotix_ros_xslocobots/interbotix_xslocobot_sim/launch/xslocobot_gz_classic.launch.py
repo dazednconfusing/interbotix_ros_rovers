@@ -29,11 +29,9 @@
 from pathlib import Path
 import xacro
 from interbotix_xs_modules.xs_common import (
-    get_interbotix_xslocobot_models,
-)
+    get_interbotix_xslocobot_models,)
 from interbotix_xs_modules.xs_launch import (
-    declare_interbotix_xslocobot_robot_description_launch_arguments,
-)
+    declare_interbotix_xslocobot_robot_description_launch_arguments,)
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
@@ -51,10 +49,12 @@ from launch.substitutions import (
     LaunchConfiguration,
     PathJoinSubstitution,
     PythonExpression,
+    FindExecutable,
 )
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
+
 
 def launch_setup(context, *args, **kwargs):
 
@@ -67,24 +67,25 @@ def launch_setup(context, *args, **kwargs):
     use_gazebo_verbose_launch_arg = LaunchConfiguration('use_gazebo_verbose')
     use_gazebo_debug_launch_arg = LaunchConfiguration('use_gazebo_debug')
     start_gazebo_paused_launch_arg = LaunchConfiguration('start_gazebo_paused')
-    enable_gazebo_recording_launch_arg = LaunchConfiguration('enable_gazebo_recording')
+    enable_gazebo_recording_launch_arg = LaunchConfiguration(
+        'enable_gazebo_recording')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
 
     # Set ignition resource paths
-    gz_resource_path_env_var = SetEnvironmentVariable(
-        name='IGN_GAZEBO_RESOURCE_PATH',
-        value=[
-            EnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', default_value=''),
-            ':',
-            str(Path(
-                FindPackageShare('interbotix_common_sim').perform(context)
-            ).parent.resolve()),
-            ':',
-            str(Path(
-                FindPackageShare('interbotix_xslocobot_descriptions').perform(context)
-            ).parent.resolve()),
-        ]
-    )
+    # gz_resource_path_env_var = SetEnvironmentVariable(
+    #     name='IGN_GAZEBO_RESOURCE_PATH',
+    #     value=[
+    #         EnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', default_value=''),
+    #         ':',
+    #         str(Path(
+    #             FindPackageShare('interbotix_common_sim').perform(context)
+    #         ).parent.resolve()),
+    #         ':',
+    #         str(Path(
+    #             FindPackageShare('interbotix_xslocobot_descriptions').perform(context)
+    #         ).parent.resolve()),
+    #     ]
+    # )
 
     # gz_model_path_env_var = SetEnvironmentVariable(
     #     name='GAZEBO_MODEL_PATH',
@@ -107,42 +108,52 @@ def launch_setup(context, *args, **kwargs):
         value=[
             EnvironmentVariable('GAZEBO_MEDIA_PATH', default_value=''),
             ':',
-            str(Path(
-                FindPackageShare('interbotix_common_sim').perform(context)
-            ).parent.resolve()),
+            str(
+                Path(
+                    FindPackageShare('interbotix_common_sim').perform(
+                        context)).parent.resolve()),
             ':',
-            str(Path(
-                FindPackageShare('interbotix_xslocobot_descriptions').perform(context)
-            ).parent.resolve()),
-        ]
-    )
+            str(
+                Path(
+                    FindPackageShare('interbotix_xslocobot_descriptions').
+                    perform(context)).parent.resolve()),
+        ])
 
     # Set GAZEBO_MODEL_URI to empty string to prevent Gazebo from downloading models
-    gz_model_uri_env_var = SetEnvironmentVariable(
-        name='GAZEBO_MODEL_URI',
-        value=['']
-    )
+    gz_model_uri_env_var = SetEnvironmentVariable(name='GAZEBO_MODEL_URI',
+                                                  value=[''])
 
     # Set GAZEBO_MODEL_DATABASE_URI to empty string to prevent Gazebo from downloading models
     gz_model_uri_env_var = SetEnvironmentVariable(
-        name='GAZEBO_MODEL_DATABASE_URI',
-        value=['']
-    )
+        name='GAZEBO_MODEL_DATABASE_URI', value=[''])
 
-    gazebo_launch_include = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution(
-                [FindPackageShare('ros_gz_sim'), 'launch',
-                 'gz_sim.launch.py']),
-        ]),
-        launch_arguments=[
-            ('gz_args',
-             [' -r -v 7 ' + world_filepath_launch_arg.perform(context)])
-        ])
+    # gazebo_launch_include = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([
+    #         PathJoinSubstitution(
+    #             [FindPackageShare('ros_gz_sim'), 'launch',
+    #              'gz_sim.launch.py']),
+    #     ]),
+    #     launch_arguments=[
+    #         ('gz_args',
+    #          [' -r -v 7 ' + world_filepath_launch_arg.perform(context)])
+    #     ])
     # xacro_file = '/simply_ws/src/interbotix/interbotix_ros_rovers/interbotix_ros_xslocobots/interbotix_xslocobot_descriptions/urdf/locobot.urdf.xacro'
 
     # doc = xacro.parse(open(xacro_file))
     # xacro.process_doc(doc, mappings={'arm_model': 'mobile_wx250s', 'robot_name': 'locobot', 'base_model': 'kobuki', 'robot_model': 'locobot_wx250s'})
+
+    set_gz_resource_path = ExecuteProcess(
+        cmd=[
+            FindExecutable(name='ign'), 'service', '--service',
+            '/gazebo/resource_paths/add', '--reqtype',
+            'ignition.msgs.StringMsg_V', '--reptype', 'ignition.msgs.Empty',
+            '--timeout', '1000', '-rdata:"' + str(
+                Path(
+                    FindPackageShare('interbotix_xslocobot_descriptions').
+                    perform(context)).parent.resolve()) + '"'
+        ],
+        output='screen',
+    )
     spawn_robot_node = Node(
         package='ros_gz_sim',
         executable='create',
@@ -150,12 +161,8 @@ def launch_setup(context, *args, **kwargs):
         # namespace=robot_name_launch_arg,
         output='screen',
         arguments=[
-            '-entity', 'robot_description',
-            '-topic', 'robot_description',
-            '-x', '0.0',
-            '-y', '0.0',
-            '-z', '0.0',
-            '-Y', '0.0',
+            '-entity', 'robot_description', '-topic', 'robot_description', '-x',
+            '0.0', '-y', '0.0', '-z', '0.0', '-Y', '0.0'
         ],
     )
     # controller_manager_node = Node(
@@ -180,19 +187,17 @@ def launch_setup(context, *args, **kwargs):
             # f'{robot_name_launch_arg.perform(context)}/controller_manager',
             'joint_state_broadcaster',
         ],
-    )
+        output='screen')
     # spawn_joint_state_broadcaster_node = ExecuteProcess(
     #     cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
     #          'joint_state_broadcaster'],
     #     output='screen'
     # )
 
-
     spawn_arm_controller_node = Node(
         condition=LaunchConfigurationNotEquals(
             launch_configuration_name='robot_model',
-            expected_value='locobot_base'
-        ),
+            expected_value='locobot_base'),
         name='arm_controller_spawner',
         package='controller_manager',
         executable='spawner',
@@ -201,14 +206,12 @@ def launch_setup(context, *args, **kwargs):
             # f'{robot_name_launch_arg.perform(context)}/controller_manager',
             'arm_controller',
         ],
-    )
+        output='screen')
 
     spawn_gripper_controller_node = Node(
         condition=IfCondition(LaunchConfiguration('use_gripper')) and
-        LaunchConfigurationNotEquals(
-            launch_configuration_name='robot_model',
-            expected_value='locobot_base'
-        ),
+        LaunchConfigurationNotEquals(launch_configuration_name='robot_model',
+                                     expected_value='locobot_base'),
         name='gripper_controller_spawner',
         package='controller_manager',
         executable='spawner',
@@ -217,7 +220,7 @@ def launch_setup(context, *args, **kwargs):
             # f'{robot_name_launch_arg.perform(context)}/controller_manager',
             'gripper_controller',
         ],
-    )
+        output='screen')
 
     spawn_camera_controller_node = Node(
         name='camera_controller_spawner',
@@ -228,7 +231,7 @@ def launch_setup(context, *args, **kwargs):
             # f'{robot_name_launch_arg.perform(context)}/controller_manager',
             'camera_controller',
         ],
-    )
+        output='screen')
 
     spawn_diffdrive_controller_node = Node(
         name='diffdrive_controller_spawner',
@@ -239,13 +242,12 @@ def launch_setup(context, *args, **kwargs):
             # f'{robot_name_launch_arg.perform(context)}/controller_manager',
             'diffdrive_controller',
         ],
-    )
+        output='screen')
 
     xslocobot_description_launch_include = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-                FindPackageShare('interbotix_xslocobot_descriptions'),
-                'launch',
+                FindPackageShare('interbotix_xslocobot_descriptions'), 'launch',
                 'xslocobot_description.launch.py'
             ])
         ]),
@@ -262,48 +264,38 @@ def launch_setup(context, *args, **kwargs):
     load_joint_state_broadcaster_event = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=spawn_robot_node,
-            on_exit=[spawn_joint_state_broadcaster_node]
-        )
-    )
+            on_exit=[spawn_joint_state_broadcaster_node]))
 
     # spawn diffdrive_controller after joint_state_broadcaster is spawned
     load_diffdrive_controller_event = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=spawn_joint_state_broadcaster_node,
-            on_exit=[spawn_diffdrive_controller_node]
-        )
-    )
+            on_exit=[spawn_diffdrive_controller_node]))
 
     # spawn camera_controller after joint_state_broadcaster is spawned
     load_camera_controller_event = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=spawn_joint_state_broadcaster_node,
-            on_exit=[spawn_camera_controller_node]
-        )
-    )
+            on_exit=[spawn_camera_controller_node]))
 
     # spawn arm_controller controller after joint_state_broadcaster is spawned
     load_arm_controller_event = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=spawn_joint_state_broadcaster_node,
-            on_exit=[spawn_arm_controller_node]
-        )
-    )
+            on_exit=[spawn_arm_controller_node]))
 
     # spawn gripper_controller controller after joint_state_broadcaster is spawned
     load_gripper_controller_event = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=spawn_joint_state_broadcaster_node,
-            on_exit=[spawn_gripper_controller_node]
-        )
-    )
+            on_exit=[spawn_gripper_controller_node]))
 
     return [
-        gz_resource_path_env_var,
+        set_gz_resource_path,
         # gz_model_path_env_var,
         # gz_media_path_env_var,
         # gz_model_uri_env_var,
-        gazebo_launch_include,
+        # gazebo_launch_include,
         # controller_manager_node,
         load_diffdrive_controller_event,
         load_camera_controller_event,
@@ -320,50 +312,47 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             'robot_model',
-            default_value=EnvironmentVariable('INTERBOTIX_XSLOCOBOT_ROBOT_MODEL'),
+            default_value=EnvironmentVariable(
+                'INTERBOTIX_XSLOCOBOT_ROBOT_MODEL'),
             choices=get_interbotix_xslocobot_models(),
-            description=(
-              'model type of the Interbotix LoCoBot such as `locobot_base` or `locobot_wx250s`.'
+            description=
+            ('model type of the Interbotix LoCoBot such as `locobot_base` or `locobot_wx250s`.'
             ),
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'robot_name',
             default_value='locobot',
-            description='name of the robot (could be anything but defaults to `locobot`).',
-        )
-    )
+            description=
+            'name of the robot (could be anything but defaults to `locobot`).',
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'arm_model',
             default_value=PythonExpression([
-                '"mobile_" + "', LaunchConfiguration('robot_model'), '".split("_")[1]'
+                '"mobile_" + "',
+                LaunchConfiguration('robot_model'), '".split("_")[1]'
             ]),
-            description=(
-                'the Interbotix Arm model on the LoCoBot; this should never be set manually but '
-                'rather left to its default value.'
-            ),
-        )
-    )
+            description=
+            ('the Interbotix Arm model on the LoCoBot; this should never be set manually but '
+             'rather left to its default value.'),
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_lidar',
             default_value='false',
             choices=('true', 'false'),
             description='if `true`, the RPLidar node is launched.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_rviz',
             default_value='true',
             choices=('true', 'false'),
-            description=(
-                "launches RViz if set to `true`; set to `false` if SSH'd into the physical robot."
+            description=
+            ("launches RViz if set to `true`; set to `false` if SSH'd into the physical robot."
             ),
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'rvizconfig',
@@ -373,8 +362,7 @@ def generate_launch_description():
                 'xslocobot_gz_classic.rviz',
             ]),
             description='file path to the config file RViz should load.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'world_filepath',
@@ -384,63 +372,54 @@ def generate_launch_description():
                 'interbotix.world',
             ]),
             description="the file path to the Gazebo 'world' file to load.",
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_gazebo_gui',
             default_value='true',
             choices=('true', 'false'),
             description='launches the Gazebo GUI if `true`.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_gazebo_verbose',
             default_value='false',
             choices=('true', 'false'),
-            description='launches Gazebo with verbose console logging if `true`.',
-        )
-    )
+            description=
+            'launches Gazebo with verbose console logging if `true`.',
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_gazebo_debug',
             default_value='false',
             choices=('true', 'false'),
             description='start gzserver in debug mode using gdb.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'start_gazebo_paused',
-            default_value='false',
+            default_value='true',
             choices=('true', 'false'),
             description='start Gazebo in a paused state.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'enable_gazebo_recording',
             default_value='false',
             choices=('true', 'false'),
             description='enable Gazebo state log recording.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_sim_time',
             default_value='true',
             choices=('true', 'false'),
-            description=(
-                'tells ROS nodes asking for time to get the Gazebo-published simulation time, '
-                'published over the ROS topic /clock.'
-            )
-        )
-    )
+            description=
+            ('tells ROS nodes asking for time to get the Gazebo-published simulation time, '
+             'published over the ROS topic /clock.')))
     declared_arguments.extend(
         declare_interbotix_xslocobot_robot_description_launch_arguments(
-            hardware_type='gz_ignition',
-        )
-    )
+            hardware_type='gz_ignition',))
 
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(declared_arguments +
+                             [OpaqueFunction(function=launch_setup)])

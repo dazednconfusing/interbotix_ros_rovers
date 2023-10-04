@@ -1,4 +1,4 @@
-/**:
+move_group:
   ros__parameters:
     interbotix_arm:
       kinematics_solver: lma_kinematics_plugin/LMAKinematicsPlugin

@@ -27,12 +27,12 @@
       </xacro:if>
 
     </hardware>
-  <joint name="waist">
+    <joint name="waist">
       <command_interface name="position">
         <param name="min">"${waist_limit_lower}"</param>
         <param name="max">"${waist_limit_upper}"</param>
       </command_interface>
-      <state_interface name="position"/>
+      <state_interface name="position" />
       <param name="initial_position">0.00</param>
     </joint>
 
@@ -41,7 +41,7 @@
         <param name="min">"${shoulder_limit_lower}"</param>
         <param name="max">"${shoulder_limit_upper}"</param>
       </command_interface>
-      <state_interface name="position"/>
+      <state_interface name="position" />
       <param name="initial_position">0.00</param>
     </joint>
 
@@ -50,7 +50,7 @@
         <param name="min">"${elbow_limit_lower}"</param>
         <param name="max">"${elbow_limit_upper}"</param>
       </command_interface>
-      <state_interface name="position"/>
+      <state_interface name="position" />
       <param name="initial_position">0.00</param>
     </joint>
 
@@ -60,7 +60,7 @@
           <param name="min">"${forearm_roll_limit_lower}"</param>
           <param name="max">"${forearm_roll_limit_upper}"</param>
         </command_interface>
-        <state_interface name="position"/>
+        <state_interface name="position" />
         <param name="initial_position">0.00</param>
       </joint>
     </xacro:if>
@@ -70,7 +70,7 @@
         <param name="min">"${wrist_angle_limit_lower}"</param>
         <param name="max">"${wrist_angle_limit_upper}"</param>
       </command_interface>
-      <state_interface name="position"/>
+      <state_interface name="position" />
       <param name="initial_position">0.00</param>
     </joint>
 
@@ -80,7 +80,7 @@
           <param name="min">"${wrist_rotate_limit_lower}"</param>
           <param name="max">"${wrist_rotate_limit_upper}"</param>
         </command_interface>
-        <state_interface name="position"/>
+        <state_interface name="position" />
         <param name="initial_position">0.00</param>
       </joint>
     </xacro:if>
@@ -88,18 +88,18 @@
     <xacro:if value="$(arg use_gripper)">
       <xacro:if value="${hardware_type in ('fake', 'gz_classic', 'gz_ignition')}">
         <joint name="gripper">
-          <command_interface name="position"/>
-          <state_interface name="position"/>
+          <command_interface name="position" />
+          <state_interface name="position" />
         </joint>
       </xacro:if>
 
       <xacro:if value="$(arg show_gripper_fingers)">
         <joint name="left_finger">
           <command_interface name="position">
-            <param name="min">"${finger_limit_lower}"</param>
-            <param name="max">"${-finger_limit_lower}"</param>
+            <param name="min">${finger_limit_lower}</param>
+            <param name="max">${finger_limit_upper}</param>
           </command_interface>
-          <state_interface name="position"/>
+          <state_interface name="position" />
           <param name="initial_position">0.0195</param>
         </joint>
 
@@ -108,96 +108,96 @@
             <!-- <param name="mimic">left_finger</param>
             <param name="multiplier">1</param> -->
             <command_interface name="position">
-              <param name="min">"${-finger_limit_lower}"</param>
-              <param name="max">"${finger_limit_lower}"</param>
+              <param name="min">${-finger_limit_upper}</param>
+              <param name="max">${-finger_limit_lower}"</param>
             </command_interface>
-            <state_interface name="position"/>
-            <param name="initial_position">0.0195</param>
+            <state_interface name="position" />
+            <param name="initial_position">-0.0195</param>
           </joint>
         </xacro:if>
       </xacro:if>
     </xacro:if>
 
 
-      <joint name="pan">
+    <joint name="pan">
+      <command_interface name="position" />
+      <state_interface name="position" />
+      <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
+    </joint>
+
+    <joint name="tilt">
+      <command_interface name="position" />
+      <state_interface name="position" />
+      <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
+    </joint>
+
+    <xacro:if value="${base_type == 'create3'}">
+
+      <joint name="wheel_drop_left_joint">
         <command_interface name="position" />
         <state_interface name="position" />
         <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
       </joint>
 
-      <joint name="tilt">
+      <joint name="wheel_drop_right_joint">
         <command_interface name="position" />
         <state_interface name="position" />
         <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
       </joint>
 
-      <xacro:if value="${base_type == 'create3'}">
+      <joint name="left_wheel_joint">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position" />
+        <state_interface name="velocity" />
+        <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
+      </joint>
 
-        <joint name="wheel_drop_left_joint">
-          <command_interface name="position" />
-          <state_interface name="position" />
-          <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
-        </joint>
-
-        <joint name="wheel_drop_right_joint">
-          <command_interface name="position" />
-          <state_interface name="position" />
-          <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
-        </joint>
-
-        <joint name="left_wheel_joint">
-          <command_interface name="position" />
-          <command_interface name="velocity" />
-          <state_interface name="position" />
-          <state_interface name="velocity" />
-          <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
-        </joint>
-
-        <joint name="right_wheel_joint">
-          <command_interface name="position" />
-          <command_interface name="velocity" />
-          <state_interface name="position" />
-          <state_interface name="velocity" />
-          <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
-        </joint>
-      </xacro:if> <!-- base_type
+      <joint name="right_wheel_joint">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position" />
+        <state_interface name="velocity" />
+        <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
+      </joint>
+    </xacro:if> <!-- base_type
     =='create3' -->
-      <xacro:if value="${base_type == 'kobuki'}">
-        <joint name="wheel_left_joint">
-          <command_interface name="velocity" />
-          <state_interface name="position" />
-        </joint>
-        <joint name="wheel_right_joint">
-          <command_interface name="velocity" />
-          <state_interface name="position" />
-        </joint>
-      </xacro:if> <!-- base_type ==
+    <xacro:if value="${base_type == 'kobuki'}">
+      <joint name="wheel_left_joint">
+        <command_interface name="velocity" />
+        <state_interface name="position" />
+      </joint>
+      <joint name="wheel_right_joint">
+        <command_interface name="velocity" />
+        <state_interface name="position" />
+      </joint>
+    </xacro:if> <!-- base_type ==
       'kobuki' -->
-</xacro:macro>
+  </xacro:macro>
 
-<xacro:macro name="gz_controller_manager">
-      <xacro:if value="${hardware_type == 'gz_classic'}">
-        <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
-          <ros>
-            <namespace>/${robot_name}</namespace>
-          </ros>
-          <robot_param>robot_description</robot_param>
-          <robot_param_node>robot_state_publisher</robot_param_node>
-          <parameters> $(find interbotix_xslocobot_sim)/config/${base_type}_version/${
-            robot_model}_controllers.yaml </parameters>
-        </plugin>
-      </xacro:if>
-      <xacro:if value="${hardware_type == 'gz_ignition'}">
-        <plugin filename="ign_ros2_control-system"
-          name="ign_ros2_control::IgnitionROS2ControlPlugin">
-          <!-- <ros>
+  <xacro:macro name="gz_controller_manager">
+    <xacro:if value="${hardware_type == 'gz_classic'}">
+      <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+        <ros>
+          <namespace>/${robot_name}</namespace>
+        </ros>
+        <robot_param>robot_description</robot_param>
+        <robot_param_node>robot_state_publisher</robot_param_node>
+        <parameters> $(find interbotix_xslocobot_sim)/config/${base_type}_version/${
+          robot_model}_controllers.yaml </parameters>
+      </plugin>
+    </xacro:if>
+    <xacro:if value="${hardware_type == 'gz_ignition'}">
+      <plugin filename="ign_ros2_control-system"
+        name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <!-- <ros>
           <namespace>/$(arg robot_name)</namespace>
         </ros> -->
-          <parameters>
-            $(find interbotix_xslocobot_sim)/config/${base_type}_version/${
-            robot_model}_controllers.yaml
-          </parameters>
-        </plugin>
-      </xacro:if>
+        <parameters>
+          $(find interbotix_xslocobot_sim)/config/${base_type}_version/${
+          robot_model}_controllers.yaml
+        </parameters>
+      </plugin>
+    </xacro:if>
   </xacro:macro>
 </robot>

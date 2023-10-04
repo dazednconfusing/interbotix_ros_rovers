@@ -27,11 +27,9 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from interbotix_xs_modules.xs_common import (
-    get_interbotix_xslocobot_models,
-)
+    get_interbotix_xslocobot_models,)
 from interbotix_xs_modules.xs_launch import (
-    declare_interbotix_xslocobot_robot_description_launch_arguments,
-)
+    declare_interbotix_xslocobot_robot_description_launch_arguments,)
 from interbotix_xs_modules.xs_launch.xs_launch import determine_use_sim_time_param
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
@@ -62,17 +60,17 @@ def launch_setup(context, *args, **kwargs):
 
     # sets use_sim_time parameter to 'true' if using gazebo hardware
     use_sim_time_param = determine_use_sim_time_param(
-        context=context,
-        hardware_type_launch_arg=hardware_type_launch_arg
-    )
+        context=context, hardware_type_launch_arg=hardware_type_launch_arg)
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         # namespace=robot_name_launch_arg,
         parameters=[{
-            'robot_description': ParameterValue(robot_description_launch_arg, value_type=str),
-            'use_sim_time': use_sim_time_param,
+            'robot_description':
+                ParameterValue(robot_description_launch_arg, value_type=str),
+            'use_sim_time':
+                use_sim_time_param,
         }],
         output={'both': 'screen'},
     )
@@ -104,8 +102,10 @@ def launch_setup(context, *args, **kwargs):
         name='rviz2',
         # namespace=robot_name_launch_arg,
         arguments=[
-            '-d', rvizconfig_launch_arg,
-            '-f', rviz_frame_launch_arg,
+            '-d',
+            rvizconfig_launch_arg,
+            '-f',
+            rviz_frame_launch_arg,
         ],
         parameters=[{
             'use_sim_time': use_sim_time_param,
@@ -126,58 +126,53 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             'robot_model',
-            default_value=EnvironmentVariable('INTERBOTIX_XSLOCOBOT_ROBOT_MODEL'),
+            default_value=EnvironmentVariable(
+                'INTERBOTIX_XSLOCOBOT_ROBOT_MODEL'),
             choices=get_interbotix_xslocobot_models(),
-            description=(
-                'model type of the Interbotix LoCoBot such as `locobot_base` or `locobot_wx250s`.'
+            description=
+            ('model type of the Interbotix LoCoBot such as `locobot_base` or `locobot_wx250s`.'
             ),
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'robot_name',
             default_value='locobot',
-            description='name of the robot (could be anything but defaults to `locobot`).',
-        )
-    )
+            description=
+            'name of the robot (could be anything but defaults to `locobot`).',
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'arm_model',
             default_value=PythonExpression([
-                '"mobile_" + "', LaunchConfiguration('robot_model'), '".split("_")[1]'
+                '"mobile_" + "',
+                LaunchConfiguration('robot_model'), '".split("_")[1]'
             ]),
-            description=(
-                'the Interbotix Arm model on the LoCoBot; this should never be set manually but '
-                'rather left to its default value.'
-            ),
-        )
-    )
+            description=
+            ('the Interbotix Arm model on the LoCoBot; this should never be set manually but '
+             'rather left to its default value.'),
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_lidar',
             default_value='false',
             choices=('true', 'false'),
             description='if `true`, the RPLidar node is launched.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_rviz',
             default_value='true',
             choices=('true', 'false'),
             description='launches RViz if set to `true`.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'rviz_frame',
             default_value=(LaunchConfiguration('robot_name'), '_base_link'),
-            description=(
-                'fixed frame in RViz; this should be changed to `map` or `odom` if '
-                'mapping or using local odometry respectively.'
-            ),
-        )
-    )
+            description=
+            ('fixed frame in RViz; this should be changed to `map` or `odom` if '
+             'mapping or using local odometry respectively.'),
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'rvizconfig',
@@ -187,51 +182,40 @@ def generate_launch_description():
                 'xslocobot_description.rviz',
             ]),
             description='file path to the config file RViz should load.',
-        )
-    )
+        ))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_joint_pub',
             default_value='false',
             choices=('true', 'false'),
-            description='if `true`, launches the joint_state_publisher node.'
-        )
-    )
+            description='if `true`, launches the joint_state_publisher node.'))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_joint_pub_gui',
             default_value='false',
             choices=('true', 'false'),
-            description='if `true`, launches the joint_state_publisher GUI.'
-        )
-    )
+            description='if `true`, launches the joint_state_publisher GUI.'))
     declared_arguments.append(
         DeclareLaunchArgument(
             'rate',
             default_value='10',
-            description='JointState topic publish rate in Hz.'
-        )
-    )
+            description='JointState topic publish rate in Hz.'))
     declared_arguments.append(
         DeclareLaunchArgument(
             'source_list',
             default_value=TextSubstitution(text='[]'),
-            description='list of joint state topics that should be merged together.'
-        )
-    )
+            description=
+            'list of joint state topics that should be merged together.'))
     declared_arguments.append(
         DeclareLaunchArgument(
             'use_sim_time',
             default_value='false',
             choices=('true', 'false'),
-            description=(
-                'tells ROS nodes asking for time to get the Gazebo-published simulation time, '
-                'published over the ROS topic /clock.'
-            )
-        )
-    )
+            description=
+            ('tells ROS nodes asking for time to get the Gazebo-published simulation time, '
+             'published over the ROS topic /clock.')))
     declared_arguments.extend(
-        declare_interbotix_xslocobot_robot_description_launch_arguments(),
-    )
+        declare_interbotix_xslocobot_robot_description_launch_arguments(),)
 
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(declared_arguments +
+                             [OpaqueFunction(function=launch_setup)])
