@@ -428,17 +428,29 @@
 
   <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/control.urdf.xacro" />
   <gazebo>
-    <xacro:gz_controller_manager />
+    <!-- Loads simulated hardware interface. -->
+    <xacro:gz_control_provider />
+    <!-- Loads simulated sensors. -->
     <plugin
       filename="ignition-gazebo-sensors-system"
       name="ignition::gazebo::systems::Sensors">
-      <ignition_frame_id>/${robot_name}_base_footprint</ignition_frame_id>
-      <ros>
-        <namespace></namespace>
-      </ros>
     </plugin>
+    <!-- <plugin
+      filename="libignition-gazebo-diff-drive-system.so"
+      name="ignition::gazebo::systems::DiffDrive">
+      <left_joint>wheel_left_joint</left_joint>
+      <right_joint>wheel_right_joint</right_joint>
+      <wheel_separation>0.230</wheel_separation>
+      <wheel_radius>0.035</wheel_radius>
+      <odom_publish_frequency>62</odom_publish_frequency>
+      <topic>cmd_vel</topic>
+    </plugin> -->
+    <!-- <plugin filename="ignition-gazebo-joint-state-publisher-system"
+      name="ignition::gazebo::systems::JointStatePublisher" /> -->
   </gazebo>
+  <!-- Defines hardware interface. -->
   <ros2_control name="SystemControl" type="system">
-    <xacro:hardware_joint_state_interface />
+    <xacro:hardware_interface />
+    <!-- TODO:(speralta): Move pan_and_tilt sensors here? -->
   </ros2_control>
 </robot>

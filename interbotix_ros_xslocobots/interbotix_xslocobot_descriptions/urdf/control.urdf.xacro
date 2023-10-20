@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="hardware_joint_state_interface">
+  <xacro:macro name="hardware_interface">
     <hardware>
       <!-- If we are using the actual, physical robot -->
       <xacro:if value="${hardware_type == 'actual'}">
@@ -175,7 +175,7 @@
       'kobuki' -->
   </xacro:macro>
 
-  <xacro:macro name="gz_controller_manager">
+  <xacro:macro name="gz_control_provider">
     <xacro:if value="${hardware_type == 'gz_classic'}">
       <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
         <ros>
@@ -190,9 +190,7 @@
     <xacro:if value="${hardware_type == 'gz_ignition'}">
       <plugin filename="ign_ros2_control-system"
         name="ign_ros2_control::IgnitionROS2ControlPlugin">
-        <!-- <ros>
-          <namespace>/$(arg robot_name)</namespace>
-        </ros> -->
+        <robot_param>robot_description</robot_param>
         <parameters>
           $(find interbotix_xslocobot_sim)/config/${base_type}_version/${
           robot_model}_controllers.yaml
