@@ -140,6 +140,9 @@ def launch_setup(context, *args, **kwargs):
         f'config/joint_limits/{arm_model_launch_arg.perform(context)}_joint_limits.yaml'
     )
 
+    sensor_parameters = load_yaml('interbotix_xslocobot_moveit',
+                                  f'config/sensors_3d.yaml')
+
     joint_limits = {
         'robot_description_planning': config_joint_limits,
     }
@@ -163,10 +166,6 @@ def launch_setup(context, *args, **kwargs):
         'publish_geometry_updates': True,
         'publish_state_updates': True,
         'publish_transforms_updates': True,
-    }
-
-    sensor_parameters = {
-        'sensors': [''],
     }
 
     remappings = [
@@ -208,9 +207,6 @@ def launch_setup(context, *args, **kwargs):
         # namespace=robot_name_launch_arg,
         parameters=[
             {
-                'move_group': {
-                    'capabilities': 'move_group/ExecuteTaskSolutionCapability'
-                },
                 'planning_scene_monitor_options': {
                     'robot_description': 'robot_description',
                     'joint_state_topic': '/joint_states',

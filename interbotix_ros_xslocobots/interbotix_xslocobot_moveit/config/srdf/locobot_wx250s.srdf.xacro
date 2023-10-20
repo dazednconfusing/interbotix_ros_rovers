@@ -72,8 +72,9 @@
         <joint name="left_finger" value="0.015" />
         <joint name="right_finger" value="-0.015" />
     </group_state>
-    <virtual_joint name="virtual_joint" child_link="${robot_name}_base_footprint"
-        parent_frame="world" type="fixed" />
+    <!-- Define how the robot moves in its environment, i.e., connection to robot's root link -->
+    <virtual_joint name="virtual_joint" type="planar" parent_frame="odom"
+        child_link="locobot_base_footprint" /> <!-- type can be planar, floating or fixed -->
     <!--END EFFECTOR - Purpose - Represent information about an end effector.-->
     <end_effector name="interbotix_gripper" parent_link="${robot_name}_ee_gripper_link"
         group="interbotix_gripper" />

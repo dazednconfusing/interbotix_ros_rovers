@@ -255,7 +255,7 @@ def launch_setup(context, *args, **kwargs):
             'robot_model': robot_model_launch_arg,
             'use_rviz': use_rviz_launch_arg,
             'rvizconfig': rviz_config_launch_arg,
-            'use_sim_time': 'true',
+            'use_sim_time': LaunchConfiguration('use_sim_time'),
             'robot_description': robot_description_launch_arg,
         }.items(),
     )

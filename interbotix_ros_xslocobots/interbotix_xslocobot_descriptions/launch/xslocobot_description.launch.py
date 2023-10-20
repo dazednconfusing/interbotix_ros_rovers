@@ -113,7 +113,14 @@ def launch_setup(context, *args, **kwargs):
         output={'both': 'log'},
     )
 
+    world_broadcaser_node = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=['0', '0', '0', ' 0', '0', '0', 'odom', 'world'],
+        output="screen")
+
     return [
+        world_broadcaser_node,
         robot_state_publisher_node,
         joint_state_publisher_node,
         joint_state_publisher_gui_node,

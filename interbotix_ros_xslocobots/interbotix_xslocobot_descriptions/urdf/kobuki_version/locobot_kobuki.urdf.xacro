@@ -38,13 +38,6 @@
     # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     # POSSIBILITY OF SUCH DAMAGE.
   -->
-  <link name="world"/>
-  <joint name="virtual_joint" type="fixed">
-    <parent
-      link="world"/>
-    <child
-      link="${robot_name}_base_footprint"/>
-  </joint>
   <link name="${robot_name}_base_footprint"/>
 
   <joint name="base_joint" type="fixed">
