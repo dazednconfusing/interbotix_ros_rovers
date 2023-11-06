@@ -114,6 +114,6 @@
     respawn="false"
     output="screen"
     ns="$(arg robot_name)"
-	  args="-urdf -model $(arg robot_name) -param robot_description"/>
+	  args="-urdf -model $(arg robot_name) -param robot_description -x 0 -y 0 -z 0 -J tilt 0.8 -J elbow 1.55 -J shoulder -1.1 -J wrist_angle 0.5"/>
 
 </launch>

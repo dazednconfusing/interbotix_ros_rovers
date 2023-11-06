@@ -18,7 +18,7 @@
   <arg name="jiggle_fraction" default="0.05" />
   <arg name="publish_monitored_planning_scene" default="true"/>
 
-  <arg name="capabilities" default=""/>
+  <arg name="capabilities" default="move_group/ExecuteTaskSolutionCapability" />
   <arg name="disable_capabilities" default=""/>
   <arg name="robot_model"  default=""/>
   <arg name="robot_name" default=""/>
@@ -52,7 +52,7 @@
   -->
 
     <!-- Planning Functionality -->
-    <include ns="move_group" file="$(find interbotix_xslocobot_moveit)/launch/planning_pipeline.launch.xml">
+    <include ns="move_group/planning_pipelines" file="$(find interbotix_xslocobot_moveit)/launch/planning_pipeline.launch.xml">
       <arg name="pipeline" value="ompl" />
     </include>
 

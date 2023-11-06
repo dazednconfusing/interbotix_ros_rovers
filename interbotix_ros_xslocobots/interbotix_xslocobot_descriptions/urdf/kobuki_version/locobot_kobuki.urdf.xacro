@@ -408,12 +408,12 @@
       <wheelTorque>1.0</wheelTorque>
       <wheelAcceleration>0</wheelAcceleration>
       <commandTopic>mobile_base/commands/velocity</commandTopic>
-      <odometryTopic>mobile_base/odom</odometryTopic>
-      <odometryFrame>$(arg robot_name)/odom</odometryFrame>
+      <odometryTopic>$(arg robot_name)/odom</odometryTopic>
+      <odometryFrame>world</odometryFrame>
       <robotBaseFrame>$(arg robot_name)/base_footprint</robotBaseFrame>
       <publishWheelJointState>true</publishWheelJointState>
       <rosDebugLevel>na</rosDebugLevel>
-      <publishWheelTF>false</publishWheelTF>
+      <publishWheelTF>true</publishWheelTF>
       <publishOdomTF>true</publishOdomTF>
       <odometrySource>world</odometrySource>
       <publishTf>1</publishTf>

@@ -12,7 +12,7 @@ set(ROS_DEPS
 
 # Set default base type to 'create3' if not defined
 if(DEFINED ENV{INTERBOTIX_XSLOCOBOT_BASE_TYPE})
-  message(STATUS "Using Base Type '" $ENV{INTERBOTIX_XSLOCOBOT_BASE_TYPE} "'.")
+  message(WARNING "Using Base Type '" $ENV{INTERBOTIX_XSLOCOBOT_BASE_TYPE} "'.")
 else()
   message(WARNING "INTERBOTIX_XSLOCOBOT_BASE_TYPE not set. Building using default 'create3'.")
   set(ENV{INTERBOTIX_XSLOCOBOT_BASE_TYPE} "create3")

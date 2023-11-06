@@ -29,7 +29,11 @@
   <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/arm_cradle.urdf.xacro" />
   <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/camera_tower.urdf.xacro" />
   <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/pan_and_tilt.urdf.xacro" />
-
+  <link name="world"/>
+  <joint name="virtual_joint" type="fixed">
+    <parent link="world" />
+    <child link="$(arg robot_name)/base_footprint" />
+  </joint>
   <link name="$(arg robot_name)/base_footprint"/>
 
   <xacro:if value="${arm_type == 'mobile_wx250s'}">

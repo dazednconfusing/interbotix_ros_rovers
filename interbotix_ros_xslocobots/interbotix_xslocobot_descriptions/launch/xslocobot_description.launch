@@ -14,7 +14,8 @@
   <arg name="source_list"                       default="[]"/>
   <arg name="use_rviz"                          default="true"/>
   <arg name="rviz_frame"                        default="$(arg robot_name)/base_footprint"/>
-  <arg name="rvizconfig"                        default="$(find interbotix_xslocobot_descriptions)/rviz/xslocobot_description.rviz" />
+   <arg name="rvizconfig"                        default="$(find deep_grasp_task)/config/mtc_salad.rviz" />
+  <!-- <arg name="rvizconfig"                        default="$(find interbotix_xslocobot_descriptions)/rviz/xslocobot_description.rviz" /> -->
   <arg name="model"                             default="$(find interbotix_xslocobot_descriptions)/urdf/locobot.urdf.xacro
                                                          arm_model:=$(arg arm_model)
                                                          base_model:=$(arg base_type)
