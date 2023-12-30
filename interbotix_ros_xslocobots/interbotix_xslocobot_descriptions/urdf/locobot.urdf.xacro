@@ -59,6 +59,10 @@
   <!-- <xacro:property name="right_finger_limit_upper" value="0.01" /> -->
   <xacro:property name="finger_limit_vel" value="1.0" />
 
+  <xacro:arg name="initial_positions_file"
+    default="$(find interbotix_xslocobot_sim)/config/initial_positions.yaml" />
+  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)" />
+  <xacro:property name="initial_positions" default="${xacro.load_yaml(initial_positions_file)}" />
   <xacro:if value="${urdf_loc != ''}">
     <xacro:include filename="${urdf_loc}" />
   </xacro:if>
@@ -68,12 +72,12 @@
       filename="package://interbotix_common_sim/media/materials/textures/interbotix_black.png" />
   </material>
 
-  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/plate.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/body/plate.urdf.xacro" />
   <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/lidar.urdf.xacro" />
-  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/battery.urdf.xacro" />
-  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/arm_cradle.urdf.xacro" />
-  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/camera_tower.urdf.xacro" />
-  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/pan_and_tilt.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/body/battery.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/body/arm_cradle.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/body/camera_tower.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/body/pan_and_tilt.urdf.xacro" />
 
   <xacro:if value="${arm_type == 'mobile_wx250s'}">
     <xacro:property name="camera_tower_size" value="large" />
@@ -84,13 +88,13 @@
 
   <xacro:if value="${base_type == 'kobuki'}">
     <xacro:include
-      filename="$(find interbotix_xslocobot_descriptions)/urdf/kobuki_version/locobot_kobuki.urdf.xacro" />
+      filename="$(find interbotix_xslocobot_descriptions)/urdf/base/kobuki/locobot_kobuki.urdf.xacro" />
     <xacro:property name="mesh_scale" value="0.001 0.001 0.001" />
   </xacro:if> <!-- kobuki -->
 
   <xacro:if value="${base_type == 'create3'}">
     <xacro:include
-      filename="$(find interbotix_xslocobot_descriptions)/urdf/create3_version/locobot_create3.urdf.xacro" />
+      filename="$(find interbotix_xslocobot_descriptions)/urdf/base/create3/locobot_create3.urdf.xacro" />
     <xacro:property name="mesh_scale" value="1 1 1" />
   </xacro:if> <!-- create3 -->
 
@@ -317,7 +321,7 @@
 
       <xacro:pan_and_tilt>
         <origin
-          rpy="0 0 0"
+          rpy="0 0 ${initial_positions['pan']}"
           xyz="0.047228 0 0.44425" />
       </xacro:pan_and_tilt>
 
@@ -450,7 +454,8 @@
   </gazebo>
   <!-- Defines hardware interface. -->
   <ros2_control name="SystemControl" type="system">
-    <xacro:hardware_interface />
+    <xacro:hardware_interface initial_positions="${initial_positions}" />
+
     <!-- TODO:(speralta): Move pan_and_tilt sensors here? -->
   </ros2_control>
 </robot>

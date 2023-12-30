@@ -11,11 +11,9 @@
   <xacro:property name="hardware_type" value="$(arg hardware_type)" />
   <xacro:property name="pi_offset" value="0.00001" />
 
-
-  <!-- <xacro:include filename="$(find
-  interbotix_xslocobot_descriptions)/urdf/arms/arm_control.urdf.xacro"/> -->
+  <xacro:property name="initial_positions_file" default="$(find interbotix_xslocobot_sim)/config/initial_positions.yaml" />
+  <xacro:property name="initial_positions" default="${xacro.load_yaml(initial_positions_file)}" />
   <xacro:include filename="$(find interbotix_xslocobot_descriptions)/urdf/arms/ar_tag.urdf.xacro" />
-
   <link name="${robot_name}_arm_base_link">
     <visual>
       <origin
@@ -61,7 +59,7 @@
       upper="${waist_limit_upper}"
       velocity="${waist_limit_vel}" />
     <origin
-      rpy="0 0 0"
+      rpy="0 0 ${initial_positions['waist']}"
       xyz="0 0 0.066175" />
     <parent
       link="${robot_name}_arm_base_link" />
@@ -117,7 +115,7 @@
       upper="${shoulder_limit_upper}"
       velocity="${shoulder_limit_vel}" />
     <origin
-      rpy="0 0 0"
+      rpy="0 ${initial_positions['shoulder']} 0"
       xyz="0 0 0.03865" />
     <parent
       link="${robot_name}_shoulder_link" />
@@ -173,7 +171,7 @@
       upper="${elbow_limit_upper}"
       velocity="${elbow_limit_vel}" />
     <origin
-      rpy="0 0 0"
+      rpy="0 ${initial_positions['elbow']} 0"
       xyz="0.04975 0 0.25" />
     <parent
       link="${robot_name}_upper_arm_link" />
@@ -228,7 +226,7 @@
       lower="${forearm_roll_limit_lower}"
       upper="${forearm_roll_limit_upper}"
       velocity="${forearm_roll_limit_vel}" />
-    <origin rpy="0 0 0" xyz="0.175 0 0" />
+    <origin rpy="${initial_positions['forearm_roll']} 0 0" xyz="0.175 0 0" />
     <parent
       link="${robot_name}_upper_forearm_link" />
     <child
@@ -283,7 +281,7 @@
       upper="${wrist_angle_limit_upper}"
       velocity="${wrist_angle_limit_vel}" />
     <origin
-      rpy="0 0 0"
+      rpy="0  ${initial_positions['wrist_angle']} 0"
       xyz="0.075 0 0" />
     <parent
       link="${robot_name}_lower_forearm_link" />
@@ -343,7 +341,7 @@
         upper="${wrist_rotate_limit_upper}"
         velocity="${wrist_rotate_limit_vel}" />
       <origin
-        rpy="0 0 0"
+        rpy="${initial_positions['wrist_rotate']} 0 0"
         xyz="0.065 0 0" />
       <parent
         link="${robot_name}_wrist_link" />
@@ -495,6 +493,7 @@
               scale="0.001 0.001 0.001" />
           </geometry>
           <material name="interbotix_black" />
+
         </visual>
         <collision>
           <origin
@@ -556,7 +555,7 @@
             velocity="${finger_limit_vel}" />
           <origin
             rpy="0 0 0"
-            xyz="0 0 0" />
+            xyz="0 ${initial_positions['left_finger']} 0" />
           <parent
             link="${robot_name}_fingers_link" />
           <child
@@ -577,6 +576,7 @@
                 scale="0.001 0.001 0.001" />
             </geometry>
             <material name="interbotix_black" />
+
           </visual>
           <collision>
             <origin
@@ -611,7 +611,7 @@
             velocity="${finger_limit_vel}" />
           <origin
             rpy="0 0 0"
-            xyz="0 0 0" />
+            xyz="0  ${initial_positions['right_finger']} 0" />
           <parent
             link="${robot_name}_fingers_link" />
           <child
@@ -638,6 +638,7 @@
                 scale="0.001 0.001 0.001" />
             </geometry>
             <material name="interbotix_black" />
+
           </visual>
           <collision>
             <origin
@@ -687,6 +688,167 @@
               iyz="0" />
           </inertial>
         </link>
+        <gazebo reference="${robot_name}_ar_tag_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+          </visual>
+        </gazebo>
+        <gazebo reference="{robot_name}_arm_base_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_shoulder_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_upper_arm_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_upper_forearm_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_lower_forearm_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_wrist_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_gripper_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_gripper_prop_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_ee_arm_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_fingers_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_ee_gripper_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        
+        
+        <gazebo reference="${robot_name}_gripper_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_gripper_bar_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_left_finger_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+        <gazebo reference="${robot_name}_right_finger_link">
+          <visual>
+            <material>
+              <xacro:include
+                filename="$(find interbotix_xslocobot_descriptions)/urdf/colors.urdf.xacro" />
+              <xacro:color color="black" />
+            </material>
+
+          </visual>
+        </gazebo>
+      
 
       </xacro:if> <!--
       show_gripper_fingers -->

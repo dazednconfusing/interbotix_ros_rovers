@@ -82,7 +82,7 @@ diffdrive_controller:
     right_wheel_radius_multiplier: 1.0
 
     publish_rate: 62.0
-    odom_frame_id: odom
+    odom_frame_id: world
     base_frame_id: locobot_base_footprint
     pose_covariance_diagonal : [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
     twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]

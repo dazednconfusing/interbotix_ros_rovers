@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="hardware_interface">
+  <xacro:macro name="hardware_interface" params="initial_positions">
     <hardware>
       <!-- If we are using the actual, physical robot -->
       <xacro:if value="${hardware_type == 'actual'}">
@@ -29,59 +29,59 @@
     </hardware>
     <joint name="waist">
       <command_interface name="position">
-        <param name="min">"${waist_limit_lower}"</param>
-        <param name="max">"${waist_limit_upper}"</param>
+        <param name="min">${waist_limit_lower}</param>
+        <param name="max">${waist_limit_upper}</param>
       </command_interface>
       <state_interface name="position" />
-      <param name="initial_position">0.00</param>
+      <param name="initial_position">${initial_positions['waist']}</param>
     </joint>
 
     <joint name="shoulder">
       <command_interface name="position">
-        <param name="min">"${shoulder_limit_lower}"</param>
-        <param name="max">"${shoulder_limit_upper}"</param>
+        <param name="min">${shoulder_limit_lower}</param>
+        <param name="max">${shoulder_limit_upper}</param>
       </command_interface>
       <state_interface name="position" />
-      <param name="initial_position">0.00</param>
+      <param name="initial_position">${initial_positions['shoulder']}</param>
     </joint>
 
     <joint name="elbow">
       <command_interface name="position">
-        <param name="min">"${elbow_limit_lower}"</param>
-        <param name="max">"${elbow_limit_upper}"</param>
+        <param name="min">${elbow_limit_lower}</param>
+        <param name="max">${elbow_limit_upper}</param>
       </command_interface>
       <state_interface name="position" />
-      <param name="initial_position">0.00</param>
+      <param name="initial_position">${initial_positions['elbow']}</param>
     </joint>
 
     <xacro:if value="${dof >= 6}">
       <joint name="forearm_roll">
         <command_interface name="position">
-          <param name="min">"${forearm_roll_limit_lower}"</param>
-          <param name="max">"${forearm_roll_limit_upper}"</param>
+          <param name="min">${forearm_roll_limit_lower}</param>
+          <param name="max">${forearm_roll_limit_upper}</param>
         </command_interface>
         <state_interface name="position" />
-        <param name="initial_position">0.00</param>
+        <param name="initial_position">${initial_positions['forearm_roll']}</param>
       </joint>
     </xacro:if>
 
     <joint name="wrist_angle">
       <command_interface name="position">
-        <param name="min">"${wrist_angle_limit_lower}"</param>
-        <param name="max">"${wrist_angle_limit_upper}"</param>
+        <param name="min">${wrist_angle_limit_lower}</param>
+        <param name="max">${wrist_angle_limit_upper}</param>
       </command_interface>
       <state_interface name="position" />
-      <param name="initial_position">0.00</param>
+      <param name="initial_position">${initial_positions['wrist_angle']}</param>
     </joint>
 
     <xacro:if value="${dof >= 5}">
       <joint name="wrist_rotate">
         <command_interface name="position">
-          <param name="min">"${wrist_rotate_limit_lower}"</param>
-          <param name="max">"${wrist_rotate_limit_upper}"</param>
+          <param name="min">${wrist_rotate_limit_lower}</param>
+          <param name="max">${wrist_rotate_limit_upper}</param>
         </command_interface>
         <state_interface name="position" />
-        <param name="initial_position">0.00</param>
+        <param name="initial_position">${initial_positions['wrist_rotate']}</param>
       </joint>
     </xacro:if>
 
@@ -100,7 +100,7 @@
             <param name="max">${finger_limit_upper}</param>
           </command_interface>
           <state_interface name="position" />
-          <param name="initial_position">0.0195</param>
+          <param name="initial_position">${initial_positions['left_finger']}</param>
         </joint>
 
         <xacro:if value="${hardware_type in ('gz_classic', 'gz_ignition')}">
@@ -109,10 +109,10 @@
             <param name="multiplier">1</param> -->
             <command_interface name="position">
               <param name="min">${-finger_limit_upper}</param>
-              <param name="max">${-finger_limit_lower}"</param>
+              <param name="max">${-finger_limit_lower}</param>
             </command_interface>
             <state_interface name="position" />
-            <param name="initial_position">-0.0195</param>
+            <param name="initial_position">${initial_positions['right_finger']}</param>
           </joint>
         </xacro:if>
       </xacro:if>
@@ -122,13 +122,15 @@
     <joint name="pan">
       <command_interface name="position" />
       <state_interface name="position" />
-      <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
+      <param name="initial_position">${initial_positions['pan']}</param>  <!-- initial position for
+      the GenericSystem -->
     </joint>
 
     <joint name="tilt">
       <command_interface name="position" />
       <state_interface name="position" />
-      <param name="initial_position">0.0</param>  <!-- initial position for the GenericSystem -->
+      <param name="initial_position">${initial_positions['tilt']}</param>  <!-- initial position for
+      the GenericSystem -->
     </joint>
 
     <xacro:if value="${base_type == 'create3'}">

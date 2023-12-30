@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <xacro:property name="initial_positions_file" default="$(find interbotix_xslocobot_sim)/config/initial_positions.yaml" />
+  <xacro:property name="initial_positions" default="${xacro.load_yaml(initial_positions_file)}" />
   <xacro:macro name="pan_and_tilt" params="*origin">
 
     <joint name="pan" type="revolute">
@@ -70,7 +72,7 @@
         upper="${radians(75)}"
         velocity="${pi}" />
       <origin
-        rpy="0 0.8 0"
+        rpy="0 ${initial_positions['tilt']} 0"
         xyz="0.025034 0 0.019" />
       <parent
         link="${robot_name}_pan_link" />
@@ -227,11 +229,31 @@
     </link> -->
 
     <gazebo reference="camera_${robot_name}_link">
+      <sensor name="camera" type="camera">
+        <topic>/camera</topic>
+        <ignition_frame_id>camera_${robot_name}_link</ignition_frame_id>
+        <always_on>true</always_on>
+        <update_rate>5</update_rate>
+        <topic>camera</topic>
+        <camera>
+          <optical_frame_id>camera_${robot_name}_link</optical_frame_id>
+          <horizontal_fov>0.994837</horizontal_fov>
+            <image>
+                <width>640</width>
+                <height>480</height>
+            </image>
+            <clip>
+                <near>0.01</near>
+                <far>6</far>
+            </clip>
+        </camera>
+      </sensor>
+
       <sensor name="rgbd_sensor" type="rgbd_camera">
         <topic>/rgbd_camera</topic>
         <ignition_frame_id>camera_${robot_name}_link</ignition_frame_id>
         <always_on>true</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>5</update_rate>
 
         <camera name="rgbd_camera">
           <optical_frame_id>camera_${robot_name}_link</optical_frame_id>
