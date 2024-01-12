@@ -53,7 +53,7 @@ planner_configs:
   PRMstar:
     type: geometric::PRMstar
 interbotix_arm:
-  default_planner_config: RRTConnect
+  default_planner_config: RRTStar
   planner_configs:
     - SBL
     - EST
@@ -67,7 +67,7 @@ interbotix_arm:
     - PRM
     - PRMstar
 interbotix_gripper:
-  default_planner_config: RRTConnect
+  default_planner_config: RRT
   planner_configs:
     - SBL
     - EST

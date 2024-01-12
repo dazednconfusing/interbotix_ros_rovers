@@ -50,6 +50,59 @@
         iyz="-0.0000022881" />
     </inertial>
   </link>
+<!-- 
+    <joint name="arm_base_camera_link" type="fixed">
+      <origin rpy="0 0.6 0" xyz="-0.05 0 0.5" />
+      <parent link="${robot_name}_arm_base_link" />
+      <child link="${robot_name}_arm_base_camera_link" />
+    </joint>
+    <link name="${robot_name}_arm_base_camera_link">
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <ignition_frame_id>/${robot_name}_arm_base_camera_link</ignition_frame_id>
+    </link>
+
+  <gazebo reference="${robot_name}_arm_base_camera_link">
+    <material>Gazebo/Darkblack</material>
+      <sensor name="camera_arm_base" type="camera">
+        <topic>/camera_arm_base</topic>
+        <ignition_frame_id>${robot_name}_arm_base_camera_link</ignition_frame_id>
+        <always_on>true</always_on>
+        <update_rate>5</update_rate>
+        <camera name="camera_arm_base">
+          <optical_frame_id>${robot_name}_arm_base_camera_link</optical_frame_id>
+          <horizontal_fov>0.994837</horizontal_fov>
+          <update_rate>10</update_rate>
+          <image>
+            <format>R8G8B8</format>
+            <width>640</width>
+            <height>480</height>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>6</far>
+          </clip>
+
+          <distortion>
+            <k1>0.00000001</k1>
+            <k2>0.00000001</k2>
+            <k3>0.00000001</k3>
+            <p1>0.00000001</p1>
+            <p2>0.00000001</p2>
+          </distortion> -->
+
+          <!-- <intrinsics>
+            <cx>0</cx>
+            <cy>0</cy>
+          </intrinsics>
+          <projection>
+            <fx>0</fx>
+            <fy>0</fy>
+          </projection> -->
+        <!-- </camera>
+      </sensor>
+      
+
+  </gazebo> -->
 
   <joint name="waist" type="revolute">
     <axis xyz="0 0 1" />
@@ -60,7 +113,7 @@
       velocity="${waist_limit_vel}" />
     <origin
       rpy="0 0 ${initial_positions['waist']}"
-      xyz="0 0 0.066175" />
+      xyz="0 ${initial_positions['waist_lateral_position']} 0.066175" />
     <parent
       link="${robot_name}_arm_base_link" />
     <child

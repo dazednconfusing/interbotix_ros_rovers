@@ -1,24 +1,37 @@
-elbow: 1.55
-forearm_roll: 0
+# elbow: 0.87
+# forearm_roll: -0.767
+# shoulder: -1.5
+# waist: 1.0
+# wrist_angle: 1.57
+# wrist_rotate: 0.5
+# left_finger: 0
+# right_finger: 0
+# pan: 0
+# tilt: 0.55
+# waist_lateral_position: -0.08
+
+# elbow: 0.75
+# forearm_roll: 0
+# shoulder: -0.6
+# waist: -0.7
+# wrist_angle: 0
+# wrist_rotate: 0
+# left_finger: 0
+# right_finger: 0
+# pan: 0
+# tilt: 0.8
+
+elbow: 1.55 
+forearm_roll: 0 
 shoulder: -1.1
-waist: -0.5
-wrist_angle: 0
-wrist_rotate: 0
+waist: 0 
+wrist_angle: 0.5
+wrist_rotate: 0 
 left_finger: 0.0195
 right_finger: -0.0195
 pan: 0
-tilt: 0.9
-
-# elbow: 1.55 
-# forearm_roll: 0 
-# shoulder: -1.1
-# waist: 0 
-# wrist_angle: 0.5
-# wrist_rotate: 0 
-# left_finger: 0.0195
-# right_finger: -0.0195
-# pan: 0
-# tilt: 0.8
+waist_lateral_position: 0
+tilt: 0.8
 
 
         # <joint name="elbow" value="0" />
