@@ -84,7 +84,7 @@
         </visual> -->
       </link>
   
-    <!-- <gazebo reference="${robot_name}_arm_base_camera_link">
+    <gazebo reference="${robot_name}_arm_base_camera_link">
       <material>Gazebo/Darkblack</material>
         <sensor name="camera_arm_base" type="camera">
           <topic>/camera_arm_base</topic>
@@ -115,7 +115,7 @@
      </camera>
         </sensor>
         
-    </gazebo> -->
+    </gazebo>
 
   </xacro:if> <!-- show_ar_tag -->
 

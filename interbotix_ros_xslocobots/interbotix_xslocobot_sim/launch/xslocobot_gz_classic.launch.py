@@ -162,7 +162,7 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         arguments=[
             '-entity', 'robot_description', '-topic', 'robot_description', '-x',
-            '0.0', '-y', '0.0', '-z', '0.8', '-Y', '0.0'
+            '0.0', '-y', '0.0', '-z', '0.0', '-Y', '0.0'
         ],
     )
     # controller_manager_node = Node(
